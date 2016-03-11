@@ -2,6 +2,7 @@ module Agents
   class FremeNerAgent < Agent
     include FormConfigurable
     include WebRequestConcern
+    include NifApiAgentConcern
 
     default_schedule 'never'
 
@@ -42,10 +43,6 @@ module Agents
       }
     end
 
-    event_description do
-      "Events will looks like this:\n\n    %s" % Utils.pretty_print(interpolated['data_key'] => {parsed: 'object'})
-    end
-
     form_configurable :base_url
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
@@ -72,33 +69,11 @@ module Agents
       JSON.parse(response.body).map { |dataset| { text: "#{dataset['Name']} (#{dataset['Description']})", id: dataset['Name'] } }
     end
 
-    def working?
-      received_event_without_error?
-    end
-
-    def check
-      receive([Event.new])
-    end
-
     def receive(incoming_events)
       incoming_events.each do |event|
         mo = interpolated(event)
 
-        headers = {
-          'Content-Type' => mo['body_format']
-        }
-
-        params = {}
-        ['outformat', 'prefix', 'language', 'dataset', 'mode', 'domain', 'types'].each do |param|
-          params[param] = mo[param] if mo[param].present?
-        end
-
-        url = URI.join(mo['base_url'], 'e-entity/freme-ner/documents')
-
-        response = faraday.run_request(:post, url, mo['body'], headers) do |request|
-          request.params.update(params)
-        end
-        create_event payload: { body: response.body, headers: response.headers, status: response.status }
+        nif_request!(mo, ['outformat', 'prefix', 'language', 'dataset', 'mode', 'domain', 'types'], URI.join(mo['base_url'], 'e-entity/freme-ner/documents'))
       end
     end
   end
