@@ -54,7 +54,7 @@ module Agents
       response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'e-link/templates'), nil, { 'Accept' => 'application/json'})
       return [] if response.status != 200
 
-      JSON.parse(response.body).map { |template| { text: "#{template['description']}", id: template['id'] } }
+      JSON.parse(response.body).map { |template| { text: "#{template['label'].presence || 'No label'}", description: template['description'], id: template['id'] } }
     end
 
     def receive(incoming_events)
