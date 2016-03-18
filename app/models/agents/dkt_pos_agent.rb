@@ -11,6 +11,8 @@ module Agents
 
       The Agent accepts all configuration options of the `/e-nlp/partOfSpeechTagging` endpoint as of march 2016, have a look at the [offical documentation](https://github.com/dkt-projekt/e-CoreNLP/tree/master-architecture-update#part-of-speech-tagging) if you need additional information
 
+      All Agent configuration options are interpolated using [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) in the context of the received event.
+
       `url` allows to customize the endpoint of the API when hosting the DKT services elswhere.
 
       `body` use [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) templating to specify the data to be send to the API.

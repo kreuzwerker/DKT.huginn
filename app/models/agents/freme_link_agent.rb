@@ -13,6 +13,8 @@ module Agents
 
       The templates contain `fields` marked between three at-signs `@@@field-name@@@`. If a user, while calling the enrichment endpoint specifies an `unknown` parameter (not from the list above), then the values of that `unknown` parameters will be used to replace with the corresponding `field` in the query template.
 
+      All Agent configuration options are interpolated using [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) in the context of the received event.
+
       `base_url` allows to customize the API server when hosting the FREME services elswhere, make sure to include the API version.
 
       `body` use [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) templating to specify the data to be send to the API.
