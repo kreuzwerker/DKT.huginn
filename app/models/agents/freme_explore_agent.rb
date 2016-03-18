@@ -51,9 +51,8 @@ module Agents
     def receive(incoming_events)
       incoming_events.each do |event|
         mo = interpolated(event)
-        mo['endpoint-type'] = mo.delete('endpoint_type')
 
-        nif_request!(mo, ['outformat', 'resource', 'endpoint', 'endpoint-type'], URI.join(mo['base_url'], 'e-link/explore'))
+        nif_request!(mo, ['outformat', 'resource', 'endpoint', 'endpoint_type'], URI.join(mo['base_url'], 'e-link/explore'))
       end
     end
   end
