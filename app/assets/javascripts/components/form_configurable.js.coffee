@@ -42,6 +42,11 @@ $ ->
 
     $.each $("input[role~=completable]"), (i, input) ->
       $(input).select2(
+        formatResult: (state) ->
+          if state.description?
+            "<b>#{state.text}</b><br>#{state.description}"
+          else
+            state.text
         data: ->
           completableDefaultOptions(input)
       ).on("change", (e) ->
