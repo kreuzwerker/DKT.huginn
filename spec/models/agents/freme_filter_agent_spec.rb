@@ -46,8 +46,8 @@ describe Agents::FremeFilterAgent do
     end
     it "returns the available datasets" do
       stub(@response_mock).status { 200 }
-      stub(@response_mock).body { JSON.dump([ {'name' => 'testfilter',} ]) }
-      expect(@checker.complete_name).to eq([{:text=>"testfilter", :id=>"testfilter"}])
+      stub(@response_mock).body { JSON.dump([ {'name' => 'testfilter', 'description' => nil} ]) }
+      expect(@checker.complete_name).to eq([{text: "testfilter", id: "testfilter", description: nil}])
     end
 
     it "returns an empty array if the request failed" do

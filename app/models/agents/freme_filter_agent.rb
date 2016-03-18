@@ -52,7 +52,7 @@ module Agents
       response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'toolbox/filter/manage'), nil, { 'Accept' => 'application/json'})
       return [] if response.status != 200
 
-      JSON.parse(response.body).map { |filter| { text: "#{filter['name']}", id: filter['name'] } }
+      JSON.parse(response.body).map { |filter| { text: "#{filter['name']}", id: filter['name'], description: filter['description'] } }
     end
 
     def receive(incoming_events)

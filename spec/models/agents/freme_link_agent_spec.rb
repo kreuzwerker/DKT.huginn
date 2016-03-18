@@ -46,8 +46,8 @@ describe Agents::FremeLinkAgent do
     end
     it "returns the available datasets" do
       stub(@response_mock).status { 200 }
-      stub(@response_mock).body { JSON.dump([ {'id' => '1245', 'description' => 'description'} ]) }
-      expect(@checker.complete_templateid).to eq([{:text=>"description", :id=>"1245"}])
+      stub(@response_mock).body { JSON.dump([ {'id' => '1245', 'label' => 'label', 'description' => 'description'} ]) }
+      expect(@checker.complete_templateid).to eq([{text: "label", id: "1245", description: 'description'}])
     end
 
     it "returns an empty array if the request failed" do
