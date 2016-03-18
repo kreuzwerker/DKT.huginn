@@ -2,6 +2,8 @@ module NifApiAgentConcern
   extend ActiveSupport::Concern
 
   included do
+    can_dry_run!
+
     event_description <<-MD
       Events look like this:
 
@@ -33,7 +35,7 @@ module NifApiAgentConcern
 
     params = {}
     configuration_keys.each do |param|
-      params[param] = mo[param] if mo[param].present?
+      params[param.gsub('_', '-')] = mo[param] if mo[param].present?
     end
 
     response = faraday.run_request(:post, url, mo['body'], headers) do |request|
