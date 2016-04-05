@@ -26,7 +26,7 @@ module Agents
 
     def default_options
       {
-        'url' => 'http://dev.digitale-kuratierung.de/api/e-nlp/partOfSpeechTagging',
+        'url' => '',
         'body' => '{{ data }}',
         'body_format' => 'text/plain',
         'outformat' => 'turtle',
