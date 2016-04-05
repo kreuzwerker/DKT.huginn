@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Agents::DktPosAgent do
   before(:each) do
-    @valid_options = Agents::DktPosAgent.new.default_options
+    @valid_options = Agents::DktPosAgent.new.default_options.merge('url' => 'http://some.endpoint.com')
     @checker = Agents::DktPosAgent.new(:name => "somename", :options => @valid_options)
     @checker.user = users(:jane)
     @checker.save!
@@ -34,7 +34,7 @@ describe Agents::DktPosAgent do
     end
 
     it "creates an event after a successfull request" do
-      stub_request(:post, "http://dev.digitale-kuratierung.de/api/e-nlp/partOfSpeechTagging?language=en&outformat=turtle").
+      stub_request(:post, "http://some.endpoint.com?language=en&outformat=turtle").
         with(:body => "Hello from Huginn",
              :headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Type'=>'text/plain', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
         to_return(:status => 200, :body => "DATA", :headers => {})

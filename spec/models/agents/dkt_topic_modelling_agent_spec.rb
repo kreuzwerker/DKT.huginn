@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Agents::DktTopicModellingAgent do
   before(:each) do
-    @valid_options = Agents::DktTopicModellingAgent.new.default_options
+    @valid_options = Agents::DktTopicModellingAgent.new.default_options.merge('url' => 'http://some.endpoint.com')
     @checker = Agents::DktTopicModellingAgent.new(:name => "somename", :options => @valid_options)
     @checker.user = users(:jane)
     @checker.save!
@@ -34,7 +34,7 @@ describe Agents::DktTopicModellingAgent do
     end
 
     it "creates an event after a successfull request" do
-      stub_request(:post, "http://dev.digitale-kuratierung.de/api/e-topicmodelling?informat=text/plain&input=Hello%20from%20Huginn&language=en&modelName=3pc&outformat=turtle").
+      stub_request(:post, "http://some.endpoint.com?informat=text/plain&input=Hello%20from%20Huginn&language=en&modelName=3pc&outformat=turtle").
         with(:headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Length'=>'0', 'Content-Type'=>'', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
         to_return(:status => 200, :body => "DATA", :headers => {})
       expect { @checker.receive([@event]) }.to change(Event, :count).by(1)

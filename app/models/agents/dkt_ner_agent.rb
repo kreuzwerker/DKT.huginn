@@ -48,7 +48,7 @@ module Agents
 
     def default_options
       {
-        'url' => 'http://dev.digitale-kuratierung.de/api/e-nlp/namedEntityRecognition',
+        'url' => '',
         'body' => '{{ data }}',
         'body_format' => 'text/plain',
         'outformat' => 'turtle',

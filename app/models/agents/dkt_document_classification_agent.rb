@@ -40,7 +40,7 @@ module Agents
 
     def default_options
       {
-        'url' => 'http://dev.digitale-kuratierung.de/api/e-documentclassification',
+        'url' => '',
         'input' => '{{ data }}',
         'informat' => 'text/plain',
         'outformat' => 'turtle',

@@ -37,7 +37,7 @@ module Agents
 
     def default_options
       {
-        'url' => 'http://dev.digitale-kuratierung.de/api/e-topicmodelling',
+        'url' => '',
         'input' => '{{ data }}',
         'informat' => 'text/plain',
         'outformat' => 'turtle',
