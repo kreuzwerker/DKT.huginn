@@ -48,7 +48,7 @@ module Agents
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
     form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice']
     form_configurable :prefix
-    form_configurable :language, type: :array, values: ['en','de','nl','fr','it','es']
+    form_configurable :language, type: :array, values: ['en']
     form_configurable :numLinks
     form_configurable :confidence
 
