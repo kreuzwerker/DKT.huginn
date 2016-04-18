@@ -41,3 +41,7 @@ en:
       almost_x_years:
         one:   "~1yr"
         other: "~%{count}yr"
+  activerecord:
+    attributes:
+      agent:
+          receivers: Targets

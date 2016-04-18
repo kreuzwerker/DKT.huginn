@@ -132,3 +132,9 @@ class @Utils
       .fail (xhr, status, error) ->
         alert('Error: ' + error)
         callback()
+
+  @select2TagClickHandler: (e, elem) ->
+    if e.which == 1
+      window.location = $(elem).attr('href')
+    else
+      window.open($(elem).attr('href'))
