@@ -60,10 +60,11 @@ GIT
 
 GIT
   remote: https://github.com/kreuzwerker/DKT.huginn_agent
-  revision: 5c70d01a69ef1ba393f7a75eef502b79e168992a
+  revision: 0d184b1d5532ea9fdbf8539c261f18120d516b37
   branch: feature/agents_in_gems
   specs:
-    huginn_agent (0.2)
+    huginn_agent (0.2.3)
+      thor
 
 PATH
   remote: vendor/gems/dotenv-2.0.1
