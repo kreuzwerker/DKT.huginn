@@ -193,3 +193,7 @@ end
 if_true(ENV['DATABASE_ADAPTER'].strip == 'mysql2') do
   gem 'mysql2', '~> 0.3.20'
 end
+
+GemfileHelper.parse_agent_gems(ENV['ADDITIOANL_GEMS']) do |args|
+  gem *args
+end
