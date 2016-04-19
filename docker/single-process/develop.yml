@@ -21,7 +21,7 @@ services:
   huginn_web:
     build:
       context: ../../
-      dockerfile: docker/single-process/Dockerfile
+      dockerfile: Dockerfile.single-process
     restart: always
     environment:
       DATABASE_ADAPTER: mysql2
@@ -39,7 +39,7 @@ services:
   huginn_threaded:
     build:
       context: ../../
-      dockerfile: docker/single-process/Dockerfile
+      dockerfile: Dockerfile.single-process
     restart: always
     environment:
       DATABASE_ADAPTER: mysql2

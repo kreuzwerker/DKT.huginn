@@ -25,9 +25,9 @@ matrix:
     - env: RSPEC_TASK=spec:features
   include:
     - rvm: 2.3.0
-      env: DATABASE_ADAPTER=mysql2 DOCKER_IMAGE=cantino/huginn-single-process DOCKERFILE=docker/single-process/Dockerfile
+      env: DATABASE_ADAPTER=mysql2 DOCKER_IMAGE=cantino/huginn-single-process DOCKERFILE=Dockerfile.single-process
     - rvm: 2.3.0
-      env: DATABASE_ADAPTER=mysql2 DOCKER_IMAGE=cantino/huginn DOCKERFILE=docker/multi-process/Dockerfile
+      env: DATABASE_ADAPTER=mysql2 DOCKER_IMAGE=cantino/huginn DOCKERFILE=Dockerfile.multi-process
     - rvm: 2.3.0
       env: RSPEC_TASK=spec:features DATABASE_ADAPTER=mysql2
     - rvm: 2.3.0
