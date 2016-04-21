@@ -24,7 +24,7 @@ class GemfileHelper
     GEM_SEPARATOR = '\s*(?:,|\z)'.freeze
     GEM_REGULAR_EXPRESSION = /(#{GEM_NAME})(?:\(#{GEM_OPTIONS}\)){0,1}#{GEM_SEPARATOR}/
 
-    def parse_agent_gems(string)
+    def parse_each_agent_gem(string)
       return unless string
       string.scan(GEM_REGULAR_EXPRESSION).each do |name, version, args|
         if version =~ /\w+:/

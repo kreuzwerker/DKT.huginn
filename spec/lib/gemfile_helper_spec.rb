@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe GemfileHelper do
-  context 'parse_agent_gems' do
+  context 'parse_each_agent_gem' do
     VALID_STRINGS = [
       ['huginn_nlp_agents(~> 0.2.1)', [
         ['huginn_nlp_agents', '~> 0.2.1']
@@ -31,18 +31,18 @@ describe GemfileHelper do
 
     it 'parses valid gem strings correctly' do
       VALID_STRINGS.each do |string, outcomes|
-        GemfileHelper.parse_agent_gems(string) do |args|
+        GemfileHelper.parse_each_agent_gem(string) do |args|
           expect(args).to eq(outcomes.shift)
         end
       end
     end
 
     it 'does nothing when nil is passed' do
-      expect { |b| GemfileHelper.parse_agent_gems(nil, &b) }.not_to yield_control
+      expect { |b| GemfileHelper.parse_each_agent_gem(nil, &b) }.not_to yield_control
     end
 
     it 'does nothing when an empty string is passed' do
-      expect { |b| GemfileHelper.parse_agent_gems('', &b) }.not_to yield_control
+      expect { |b| GemfileHelper.parse_each_agent_gem('', &b) }.not_to yield_control
     end
   end
 end
