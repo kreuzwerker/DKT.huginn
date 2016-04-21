@@ -25,6 +25,8 @@ module Agents
 
       `analysis`: The type of analysis to perform. Specify `ner` for performing NER based on a trained model. Specify `dict` to perform NER based on an uploaded dictionary. Specify `temp` to perform NER for temporal expressions.
 
+      `link`: When set to `false` the look up of found entities on DBPedia to retrieve the corresponding DBPedia URI will be skipped.
+
       `models`: Specify a semicolon separated list of the models to be used for performing the analysis. The model has to be trained first.
 
       Current list of available models for `ner analysis:
@@ -53,6 +55,7 @@ module Agents
         'body_format' => 'text/plain',
         'outformat' => 'turtle',
         'language' => 'en',
+        'link' => 'true'
       }
     end
 
@@ -62,6 +65,7 @@ module Agents
     form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html']
     form_configurable :language, type: :array, values: ['en','de']
     form_configurable :analysis, type: :array, values: ['ner', 'dict', 'temp']
+    form_configurable :link, type: :boolean
     form_configurable :models
 
     def validate_options
@@ -74,8 +78,9 @@ module Agents
     def receive(incoming_events)
       incoming_events.each do |event|
         mo = interpolated(event)
+        mo['link'] = 'no' if mo.delete('link') == 'false'
 
-        nif_request!(mo, ['outformat', 'language', 'analysis', 'models'], mo['url'])
+        nif_request!(mo, ['outformat', 'language', 'analysis', 'models', 'link'], mo['url'])
       end
     end
   end
