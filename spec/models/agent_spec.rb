@@ -550,7 +550,7 @@ describe Agent do
         agent = Agents::SomethingSource.new(:name => "something")
         agent.user = users(:bob)
         agent.receiver_ids = [agents(:bob_weather_agent).id]
-        expect(agent).to have(0).errors_on(:sources)
+        expect(agent).to have(0).errors_on(:receivers)
         agent.receiver_ids = [agents(:jane_weather_agent).id]
         expect(agent).to have(1).errors_on(:receivers)
         agent.user = users(:jane)
