@@ -68,7 +68,7 @@
                   <%= f.select(:control_target_ids,
                                options_for_select(current_user.agents.map {|s| [s.name, s.id] },
                                                   @agent.control_target_ids),
-                               {}, { multiple: true, size: 5, class: 'select2 form-control' }) %>
+                               {}, { multiple: true, size: 5, class: 'select2-linked-tags form-control', data: {url_prefix: '/agents'}}) %>
                 </div>
               </div>
             </div>
