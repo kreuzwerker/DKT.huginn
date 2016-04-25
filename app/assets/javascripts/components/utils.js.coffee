@@ -138,3 +138,26 @@ class @Utils
       window.location = $(elem).attr('href')
     else
       window.open($(elem).attr('href'))
+
+  # List of HTML entities for escaping.
+  escapeMap =
+    '&': '&amp;'
+    '<': '&lt;'
+    '>': '&gt;'
+    '"': '&quot;'
+    '\'': '&#x27;'
+    '`': '&#x60;'
+
+  createEscaper = (map) ->
+    escaper = (match) ->
+      map[match]
+
+    # Regexes for identifying a key that needs to be escaped.
+    source = '(?:' + Object.keys(map).join('|') + ')'
+    testRegexp = RegExp(source)
+    replaceRegexp = RegExp(source, 'g')
+    (string) ->
+      string = if string == null then '' else '' + string
+      if testRegexp.test(string) then string.replace(replaceRegexp, escaper) else string
+
+  @escape = createEscaper(escapeMap)

@@ -19,7 +19,7 @@ $ ->
   $(".select2-linked-tags").select2(
     width: 'resolve',
     formatSelection: (obj) ->
-      "<a href=\"#{this.element.data('urlPrefix')}/#{obj.id}/edit\" onClick=\"Utils.select2TagClickHandler(event, this)\">#{obj.text}</a>"
+      "<a href=\"#{this.element.data('urlPrefix')}/#{obj.id}/edit\" onClick=\"Utils.select2TagClickHandler(event, this)\">#{Utils.escape(obj.text)}</a>"
   )
 
   # Helper for selecting text when clicked
