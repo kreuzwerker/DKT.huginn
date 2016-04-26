@@ -83,7 +83,7 @@
 
             <div class="form-group">
               <%= f.label :sources %>
-              <span class="glyphicon glyphicon-question-sign hover-help" data-content="This Agent will receive events from the selected Agents below."></span>
+              <span class="glyphicon glyphicon-question-sign hover-help" data-content="This Agent will receive events from the selected Agents."></span>
               <div class="link-region" data-can-receive-events="<%= @agent.can_receive_events? %>">
                 <% eventSources = (current_user.agents - [@agent]).find_all { |a| a.can_create_events? } %>
                 <%= f.select(:source_ids,
@@ -101,7 +101,7 @@
 
             <div class="form-group">
               <%= f.label :receivers %>
-              <span class="glyphicon glyphicon-question-sign hover-help" data-content="Events created by this Agent will be send to the selected Agents below."></span>
+              <span class="glyphicon glyphicon-question-sign hover-help" data-content="Events created by this Agent will be sent to the selected Agents."></span>
               <div class="event-related-region">
                 <% eventTargets = (current_user.agents - [@agent]).find_all { |a| a.can_receive_events? } %>
                 <%= f.select(:receiver_ids,

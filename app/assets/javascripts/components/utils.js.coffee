@@ -139,7 +139,7 @@ class @Utils
     else
       window.open($(elem).attr('href'))
 
-  # List of HTML entities for escaping.
+  # _.escape from underscore: https://github.com/jashkenas/underscore/blob/1e68f06610fa4ecb7f2c45d1eb2ad0173d6a2cc1/underscore.js#L1411-L1436
   escapeMap =
     '&': '&amp;'
     '<': '&lt;'
