@@ -1,0 +1,8 @@
+if defined? RSpec
+  namespace :spec do
+    desc 'Run all specs in spec directory (exluding feature specs)'
+    RSpec::Core::RakeTask.new(:nofeatures) do |task|
+      task.exclude_pattern = "spec/features/**/*_spec.rb"
+    end
+  end
+end
