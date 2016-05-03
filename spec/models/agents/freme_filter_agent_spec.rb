@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Agents::FremeFilterAgent do
   before(:each) do
-    @valid_options = Agents::FremeFilterAgent.new.default_options.merge('name' => 'testfilter')
+    @valid_options = Agents::FremeFilterAgent.new.default_options.merge('name' => 'extract-entities-only')
     @checker = Agents::FremeFilterAgent.new(:name => "somename", :options => @valid_options)
     @checker.user = users(:jane)
     @checker.save!
@@ -41,13 +41,13 @@ describe Agents::FremeFilterAgent do
     before(:each) do
       faraday_mock = mock()
       @response_mock = mock()
-      mock(faraday_mock).run_request(:get, URI.parse('http://api.freme-project.eu/0.5/toolbox/filter/manage'), nil, { 'Accept' => 'application/json'}) { @response_mock }
+      mock(faraday_mock).run_request(:get, URI.parse('http://api.freme-project.eu/0.6/toolbox/convert/manage'), nil, { 'Accept' => 'application/json'}) { @response_mock }
       mock(@checker).faraday { faraday_mock }
     end
-    it "returns the available datasets" do
+    it "returns the available filters" do
       stub(@response_mock).status { 200 }
-      stub(@response_mock).body { JSON.dump([ {'name' => 'testfilter', 'description' => nil} ]) }
-      expect(@checker.complete_name).to eq([{text: "testfilter", id: "testfilter", description: nil}])
+      stub(@response_mock).body { JSON.dump([ {'name' => 'extract-entities-only', 'description' => nil} ]) }
+      expect(@checker.complete_name).to eq([{text: "extract-entities-only", id: "extract-entities-only", description: nil}])
     end
 
     it "returns an empty array if the request failed" do
@@ -58,11 +58,22 @@ describe Agents::FremeFilterAgent do
 
   describe "#receive" do
     before(:each) do
-      @event = Event.new(payload: {data: "Hello from Huginn"})
+      @event = Event.new(payload: {data:
+         <<-END
+          @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+          @prefix nif:   <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+
+          <http://freme-project.eu/#char=0,17>
+                  a               nif:RFC5147String , nif:Context , nif:String ;
+                  nif:beginIndex  "0"^^xsd:nonNegativeInteger ;
+                  nif:endIndex    "17"^^xsd:nonNegativeInteger ;
+                  nif:isString    "Hello from Huginn" .
+         END
+      })
     end
 
-    it "creates an event after a successfull request" do
-      stub_request(:post, "http://api.freme-project.eu/0.5/toolbox/filter/documents/testfilter?name=testfilter&outformat=turtle").
+    it "creates an event after a successful request" do
+      stub_request(:post, "http://api.freme-project.eu/0.6/toolbox/convert/documents/extract-entities-only?informat=turtle&outformat=turtle").
         with(:headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Type'=>'text/plain', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
         to_return(:status => 200, :body => "DATA", :headers => {})
       expect { @checker.receive([@event]) }.to change(Event, :count).by(1)
