@@ -42,7 +42,7 @@ gem 'ruby-readability', '~> 0.7', require: 'readability' # ReadabilityAgent
 gem 'weibo_2', github: 'cantino/weibo_2', branch: 'master'
 
 # GoogleCalendarPublishAgent
-gem "google-api-client", require: 'google/api_client'
+gem 'google-api-client', '<0.9.5', require: 'google/api_client'
 
 # Twitter Agents
 gem 'twitter', '~> 5.14.0' # Must to be loaded before cantino-twitter-stream.
