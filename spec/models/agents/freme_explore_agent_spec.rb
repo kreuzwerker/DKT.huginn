@@ -44,7 +44,7 @@ describe Agents::FremeExploreAgent do
 
     it "set optional parameters when specified" do
       @checker.options['prefix'] = 'http://huginn.io'
-      stub_request(:post, "http://api.freme-project.eu/0.5/e-link/explore?endpoint=http://endpoint.com&endpoint-type=sparql&outformat=turtle&resource=http://resource.com").
+      stub_request(:post, "http://api.freme-project.eu/0.6/e-link/explore?endpoint=http://endpoint.com&endpoint-type=sparql&outformat=turtle&resource=http://resource.com").
         with(:headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Length'=>'0', 'Content-Type'=>'', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
         to_return(:status => 200, :body => "DATA", :headers => {})
       expect { @checker.receive([@event]) }.to change(Event, :count).by(1)

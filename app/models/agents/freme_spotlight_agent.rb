@@ -9,7 +9,7 @@ module Agents
     description <<-MD
       The `FremeFilterAgent`  enriches text content with entities gathered from various datasets by the DBPedia-Spotlight Engine.
 
-      The Agent accepts all configuration options of the `/e-entity/dbpedia-spotlight/documents` endpoint as of version `0.5`, have a look at the [offical documentation](http://api.freme-project.eu/doc/0.5/api-doc/simple.html#!/e-Entity/execute) if you need additional information.
+      The Agent accepts all configuration options of the `/e-entity/dbpedia-spotlight/documents` endpoint as of version `0.6`, have a look at the [offical documentation](http://api.freme-project.eu/doc/0.6/api-doc/full.html#!/e-Entity/executeSpotlightNel) if you need additional information.
 
       All Agent configuration options are interpolated using [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) in the context of the received event.
 
@@ -32,7 +32,7 @@ module Agents
 
     def default_options
       {
-        'base_url' => 'http://api.freme-project.eu/0.5/',
+        'base_url' => 'http://api.freme-project.eu/0.6/',
         'body' => '{{ body }}',
         'body_format' => 'text/plain',
         'outformat' => 'turtle',
@@ -56,6 +56,7 @@ module Agents
       errors.add(:base, "body needs to be present") if options['body'].blank?
       errors.add(:base, "base_url needs to be present") if options['base_url'].blank?
       errors.add(:base, "base_url needs to end with a trailing '/'") unless options['base_url'].end_with?('/')
+      errors.add(:base, "number needs to be greater than 0 and less than or equal to 5") unless options['numLinks'].blank? || (1..5) === options['numLinks'].to_i
       validate_web_request_options!
     end
 
