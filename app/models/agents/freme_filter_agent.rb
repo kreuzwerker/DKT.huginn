@@ -28,8 +28,7 @@ module Agents
       {
         'base_url' => 'http://api.freme-project.eu/0.6/',
         'body' => '{{ body }}',
-        'body_format' => 'text/plain',
-        'informat' => 'turtle',
+        'body_format' => 'text/turtle',
         'outformat' => 'turtle',
         'name' => '',
       }
@@ -60,7 +59,7 @@ module Agents
       incoming_events.each do |event|
         mo = interpolated(event)
 
-        nif_request!(mo, ['outformat', 'informat'], URI.join(mo['base_url'], 'toolbox/convert/documents/', mo['name']))
+        nif_request!(mo, ['outformat'], URI.join(mo['base_url'], 'toolbox/convert/documents/', mo['name']))
       end
     end
   end

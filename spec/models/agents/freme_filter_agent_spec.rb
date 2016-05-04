@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Agents::FremeFilterAgent do
   before(:each) do
-    @valid_options = Agents::FremeFilterAgent.new.default_options.merge('name' => 'extract-entities-only')
+    @valid_options = Agents::FremeFilterAgent.new.default_options.merge('name' => 'testfilter')
     @checker = Agents::FremeFilterAgent.new(:name => "somename", :options => @valid_options)
     @checker.user = users(:jane)
     @checker.save!
@@ -46,8 +46,8 @@ describe Agents::FremeFilterAgent do
     end
     it "returns the available filters" do
       stub(@response_mock).status { 200 }
-      stub(@response_mock).body { JSON.dump([ {'name' => 'extract-entities-only', 'description' => nil} ]) }
-      expect(@checker.complete_name).to eq([{text: "extract-entities-only", id: "extract-entities-only", description: nil}])
+      stub(@response_mock).body { JSON.dump([ {'name' => 'testfilter', 'description' => nil} ]) }
+      expect(@checker.complete_name).to eq([{text: "testfilter", id: "testfilter", description: nil}])
     end
 
     it "returns an empty array if the request failed" do
@@ -73,8 +73,8 @@ describe Agents::FremeFilterAgent do
     end
 
     it "creates an event after a successful request" do
-      stub_request(:post, "http://api.freme-project.eu/0.6/toolbox/convert/documents/extract-entities-only?informat=turtle&outformat=turtle").
-        with(:headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Type'=>'text/plain', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
+      stub_request(:post, "http://api.freme-project.eu/0.6/toolbox/convert/documents/testfilter?outformat=turtle").
+        with(:headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Type'=>'text/turtle', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
         to_return(:status => 200, :body => "DATA", :headers => {})
       expect { @checker.receive([@event]) }.to change(Event, :count).by(1)
       event = Event.last
