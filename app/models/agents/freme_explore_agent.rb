@@ -9,24 +9,24 @@ module Agents
     description <<-MD
       The `FremeExploreAgent` can retrieve description of a resource from a given endpoint. The endpoint can be SPARQL or Linked Data Fragments endpoint.
 
-      The Agent accepts all configuration options of the `/e-link/explore` endpoint as of version `0.5`, have a look at the [offical documentation](http://api.freme-project.eu/doc/0.5/api-doc/simple.html#!/e-Link/explore) if you need additional information.
+      The Agent accepts all configuration options of the `/e-link/explore` endpoint as of version `0.6`, have a look at the [offical documentation](http://api.freme-project.eu/doc/0.6/api-doc/full.html#!/e-Link/explore) if you need additional information.
 
       All Agent configuration options are interpolated using [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) in the context of the received event.
 
       `base_url` allows to customize the API server when hosting the FREME services elswhere, make sure to include the API version.
 
-      `outformat` requested RDF serialization format of the output
+      `outformat` requested RDF serialization format of the output (required).
 
-      `resource` a URI of the resource which should be described.
+      `resource` a URI of the resource which should be described (required).
 
       `endpoint` a URL of the endpoint which should be used to retrieve info about the resource.
 
-      `endpoint_type` the type of the endpoint
+      `endpoint_type` the type of the endpoint (required).
     MD
 
     def default_options
       {
-        'base_url' => 'http://api.freme-project.eu/0.5/',
+        'base_url' => 'http://api.freme-project.eu/0.6/',
         'outformat' => 'turtle',
         'endpoint' => '',
         'resource' => '',
