@@ -36,6 +36,7 @@ gem 'xmpp4r',  '~> 0.5.6'         # JabberAgent
 gem 'mqtt'                        # MQTTAgent
 gem 'slack-notifier', '~> 1.0.0'  # SlackAgent
 gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
+gem 'ruby-readability', '~> 0.7', require: 'readability' # ReadabilityAgent
 
 # Weibo Agents
 gem 'weibo_2', github: 'cantino/weibo_2', branch: 'master'
@@ -102,6 +103,7 @@ gem 'geokit-rails', '~> 2.0.1'
 gem 'httparty', '~> 0.13'
 gem 'httmultiparty', '~> 0.3.16'
 gem 'jquery-rails', '~> 3.1.3'
+gem 'huginn_agent', git: 'https://github.com/kreuzwerker/DKT.huginn_agent', branch: 'feature/agents_in_gems'
 gem 'json', '~> 1.8.1'
 gem 'jsonpath', '~> 0.5.6'
 gem 'kaminari', '~> 0.16.1'
@@ -154,6 +156,7 @@ group :development do
     gem 'shoulda-matchers'
     gem 'vcr'
     gem 'webmock', '~> 1.17.4', require: false
+    gem 'database_cleaner', '~> 1.5.3'
   end
 end
 
@@ -191,4 +194,8 @@ end
 
 if_true(ENV['DATABASE_ADAPTER'].strip == 'mysql2') do
   gem 'mysql2', '~> 0.3.20'
+end
+
+GemfileHelper.parse_each_agent_gem(ENV['ADDITIONAL_GEMS']) do |args|
+  gem *args
 end

@@ -9,7 +9,7 @@ module Agents
     description <<-MD
       The `FremeTerminologyAgent` annotate text with terminology information using Tilde Terminology service.
 
-      The Agent accepts all configuration options of the `/e-terminology/tilde` endpoint as of version `0.5`, have a look at the [offical documentation](http://api.freme-project.eu/doc/0.5/api-doc/full.html#!/e-Terminology/e_terminology) if you need additional information
+      The Agent accepts all configuration options of the `/e-terminology/tilde` endpoint as of version `0.6`, have a look at the [offical documentation](http://api.freme-project.eu/doc/0.6/api-doc/full.html#!/e-Terminology/e_terminology) if you need additional information
 
       All Agent configuration options are interpolated using [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) in the context of the received event.
 
@@ -38,7 +38,7 @@ module Agents
 
     def default_options
       {
-        'base_url' => 'http://api.freme-project.eu/0.5/',
+        'base_url' => 'http://api.freme-project.eu/0.6/',
         'body' => '{{ data }}',
         'body_format' => 'text/plain',
         'outformat' => 'turtle',
