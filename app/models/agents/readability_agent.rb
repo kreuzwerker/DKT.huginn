@@ -29,6 +29,8 @@ module Agents
 
       `merge` set to true to retain the received payload and update it with the extracted result
 
+      `clean_output` Removes `\\t` charcters and duplicate new lines from the output when set to `true`.
+
       [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) formatting can be used in all options.
     MD
 
@@ -46,6 +48,7 @@ module Agents
         'blacklist' => '',
         'whitelist' => '',
         'merge' => 'false',
+        'clean_output' => 'true',
         'result_key' => 'data'
       }
     end
@@ -57,6 +60,7 @@ module Agents
     form_configurable :blacklist
     form_configurable :whitelist
     form_configurable :merge, type: :boolean
+    form_configurable :clean_output, type: :boolean
     form_configurable :result_key
 
     def validate_options
@@ -78,8 +82,14 @@ module Agents
 
         res = Readability::Document.new(mo['data'], options)
 
+        content = if boolify(mo['clean_output'])
+          res.content.gsub('&#13;', "\n").gsub("\\t", '').gsub("\\n", "\n").gsub(/([\n|\r\n|]\s*)+/, "\n")
+        else
+          res.content
+        end
+
         payload = boolify(mo['merge']) ? event.payload : {}
-        payload.merge!({ mo['result_key'] => { title: res.title, content: res.content, author: res.author} })
+        payload.merge!({ mo['result_key'] => { title: res.title, content: content, author: res.author} })
 
         create_event payload: payload
       end
