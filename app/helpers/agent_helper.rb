@@ -87,9 +87,9 @@ module AgentHelper
   def links_counter_cache(agents)
     @counter_cache ||= {}.tap do |cache|
       agent_ids = agents.map(&:id)
-      cache[:links_as_receiver] = Link.where(receiver_id: agent_ids).group(:receiver_id).pluck('receiver_id', 'count(receiver_id) as id').to_h
-      cache[:links_as_source] = Link.where(source_id: agent_ids).group(:source_id).pluck('source_id', 'count(source_id) as id').to_h
-      cache[:control_links_as_controller] = ControlLink.where(controller_id: agent_ids).group(:controller_id).pluck('controller_id', 'count(controller_id) as id').to_h
+      cache[:links_as_receiver] = Hash[Link.where(receiver_id: agent_ids).group(:receiver_id).pluck('receiver_id', 'count(receiver_id) as id')]
+      cache[:links_as_source] = Hash[Link.where(source_id: agent_ids).group(:source_id).pluck('source_id', 'count(source_id) as id')]
+      cache[:control_links_as_controller] = Hash[ControlLink.where(controller_id: agent_ids).group(:controller_id).pluck('controller_id', 'count(controller_id) as id')]
     end
   end
 end
