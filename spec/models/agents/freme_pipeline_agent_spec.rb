@@ -32,6 +32,13 @@ describe Agents::FremePipelineAgent do
     end
   end
 
+  it "#complete_template_id returns a list of available templates" do
+    stub_request(:get, "http://api.freme-project.eu/0.6/pipelining/templates").
+      with(:headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip,deflate', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
+      to_return(:status => 200, :body => '[{"id": 34,"description": "First e-Entity, then e-Translate"}]', :headers => {})
+    expect(@checker.complete_template_id).to eq([{text: "First e-Entity, then e-Translate", id: 34}])
+  end
+
   describe "#receive" do
     before(:each) do
       @event = Event.new(payload: {body: "Hello from Huginn"})
@@ -47,5 +54,16 @@ describe Agents::FremePipelineAgent do
       expect(event.payload['body']).to eq('DATA')
     end
 
+    it "uses the configured pipeline template" do
+      stub_request(:post, "http://api.freme-project.eu/0.6/pipelining/chain/34?stats=false").
+        with(:body => "Hello from Huginn",
+             :headers => {'Accept-Encoding'=>'gzip,deflate', 'Content-Type'=>'text/plain', 'User-Agent'=>'Huginn - https://github.com/cantino/huginn'}).
+        to_return(:status => 200, :body => "DATA", :headers => {})
+       @checker.options['template_id'] = '34'
+       @checker.options['body_format'] = 'text/plain'
+       expect { @checker.receive([@event]) }.to change(Event, :count).by(1)
+       event = Event.last
+       expect(event.payload['body']).to eq('DATA')
+    end
   end
 end

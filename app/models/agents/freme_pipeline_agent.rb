@@ -15,6 +15,10 @@ module Agents
 
       `base_url` allows to customize the API server when hosting the FREME services elswhere, make sure to include the API version.
 
+      `template` When selecting a [pipeline-template](http://api.freme-project.eu/doc/0.6/api-doc/full.html#!/pipelining/get_pipelining_templates), `body` will be used as the input for the pipeline chain.
+
+      `body_format` specify the content-type of the data in `body` (only used when a template is selected)
+
       `body` use [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) templating to specify the data to be send to the API.
 
       `stats` If true, adds timing statistics to the response: total duration of the pipeline and duration of each service called in the pipeline (in milliseconds).
@@ -29,6 +33,8 @@ module Agents
     end
 
     form_configurable :base_url
+    form_configurable :template_id, roles: :completable
+    form_configurable :body_format, type: :array, values: ['text/plain', 'text/n3', 'text/turtle', 'application/json', 'application/ld+json', 'application/n-triples', 'application/rdf+xml']
     form_configurable :body, type: :text, ace: true
     form_configurable :stats, type: :boolean
 
@@ -39,12 +45,22 @@ module Agents
       validate_web_request_options!
     end
 
+    def complete_template_id
+      response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'pipelining/templates'), nil, { 'Accept' => 'application/json'})
+      return [] if response.status != 200
+
+      JSON.parse(response.body).map { |template| { text: template['description'], id: template['id'] } }
+    end
+
     def receive(incoming_events)
       incoming_events.each do |event|
         mo = interpolated(event)
-        mo['body_format'] = 'application/json'
-
-        nif_request!(mo, ['stats'], URI.join(mo['base_url'], 'pipelining/chain'))
+        if mo['template_id'].present?
+          nif_request!(mo, ['stats'], URI.join(mo['base_url'], "pipelining/chain/#{mo['template_id']}"))
+        else
+          mo['body_format'] = 'application/json'
+          nif_request!(mo, ['stats'], URI.join(mo['base_url'], 'pipelining/chain'))
+        end
       end
     end
   end
