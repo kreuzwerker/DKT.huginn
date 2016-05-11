@@ -118,6 +118,7 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    blankslate (3.1.3)
     bootstrap-kaminari-views (0.0.5)
       kaminari (>= 0.13)
       rails (>= 3.1)
@@ -322,6 +323,10 @@ GEM
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
+    mida (0.3.9)
+      addressable (~> 2.3.8)
+      blankslate (= 3.1.3)
+      nokogiri (>= 1.6)
     mime-types (2.99.1)
     mimemagic (0.3.1)
     mini_magick (4.2.3)
@@ -640,6 +645,7 @@ DEPENDENCIES
   letter_opener_web
   liquid (~> 3.0.3)
   listen (~> 3.0.5)
+  mida (~> 0.3.9)
   mini_magick
   mqtt
   multi_xml
