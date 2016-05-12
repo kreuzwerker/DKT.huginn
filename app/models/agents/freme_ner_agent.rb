@@ -3,6 +3,7 @@ module Agents
     include FormConfigurable
     include WebRequestConcern
     include NifApiAgentConcern
+    include FremeFilterable
 
     default_schedule 'never'
 
@@ -19,7 +20,7 @@ module Agents
 
       `body_format` specify the content-type of the data in `body`
 
-      `outformat` requested RDF serialization format of the output
+      `outformat` requested RDF serialization format of the output#{filterable_outformat_description}
 
       `prefix` controls the url of rdf resources generated from plaintext. Has default value "http://freme-project.eu/".
 
@@ -34,6 +35,8 @@ module Agents
       `types` Takes as input list of one or more entity types separated by a comma. The types are URLs of ontology classes and they should be encoded. The result is a list of extracted entities with these types. More information about the types parameter in [FREME NER knowledge-base](http://api.freme-project.eu/doc/0.6/knowledge-base/freme-for-api-users/freme-ner.html).
 
       `numLinks` Using the numLinks parameter one can specify the maximum number of links to be assigned to an entity. By default only one link is returned. The maximum possible number for this parameter is 5.
+
+      #{filterable_description}
     MD
 
     def default_options
@@ -51,7 +54,7 @@ module Agents
     form_configurable :base_url
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
-    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice']
+    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice', 'csv']
     form_configurable :prefix
     form_configurable :language, type: :array, values: ['en','de','nl','fr','it','es','ru']
     form_configurable :dataset, roles: :completable
@@ -59,6 +62,7 @@ module Agents
     form_configurable :domain
     form_configurable :types
     form_configurable :numLinks
+    filterable_field
 
     def validate_options
       errors.add(:base, "body needs to be present") if options['body'].blank?

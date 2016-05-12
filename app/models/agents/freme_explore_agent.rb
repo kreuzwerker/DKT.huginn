@@ -3,6 +3,7 @@ module Agents
     include FormConfigurable
     include WebRequestConcern
     include NifApiAgentConcern
+    include FremeFilterable
 
     default_schedule 'never'
 
@@ -15,13 +16,15 @@ module Agents
 
       `base_url` allows to customize the API server when hosting the FREME services elswhere, make sure to include the API version.
 
-      `outformat` requested RDF serialization format of the output (required).
+      `outformat` requested RDF serialization format of the output (required)#{filterable_outformat_description}.
 
       `resource` a URI of the resource which should be described (required).
 
       `endpoint` a URL of the endpoint which should be used to retrieve info about the resource.
 
       `endpoint_type` the type of the endpoint (required).
+
+      #{filterable_description}
     MD
 
     def default_options
@@ -35,10 +38,11 @@ module Agents
     end
 
     form_configurable :base_url
-    form_configurable :outformat, type: :array, values: ['json-ld', 'turtle', 'n3', 'n-triples', 'rdf-xml']
+    form_configurable :outformat, type: :array, values: ['json-ld', 'turtle', 'n3', 'n-triples', 'rdf-xml', 'csv']
     form_configurable :resource
     form_configurable :endpoint
     form_configurable :endpoint_type, type: :array, values: ['sparql', 'ldf']
+    filterable_field
 
     def validate_options
       errors.add(:base, "base_url needs to be present") if options['base_url'].blank?

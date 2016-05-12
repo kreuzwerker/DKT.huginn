@@ -10,6 +10,7 @@ describe Agents::FremeSpotlightAgent do
 
   it_behaves_like WebRequestConcern
   it_behaves_like NifApiAgentConcern
+  it_behaves_like FremeFilterable
 
   describe "validating" do
     before do

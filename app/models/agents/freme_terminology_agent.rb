@@ -3,6 +3,7 @@ module Agents
     include FormConfigurable
     include WebRequestConcern
     include NifApiAgentConcern
+    include FremeFilterable
 
     default_schedule 'never'
 
@@ -19,7 +20,7 @@ module Agents
 
       `body_format` specify the content-type of the data in `body`
 
-      `outformat` requested RDF serialization format of the output
+      `outformat` requested RDF serialization format of the output#{filterable_outformat_description}
 
       `prefix` controls the url of rdf resources generated from plaintext. Has default value "http://freme-project.eu/".
 
@@ -34,6 +35,8 @@ module Agents
       `domain` If given - it filters out by domain proposed terms. Available domains here: [https://term.tilde.com/domains](https://term.tilde.com/domains) (should pass just ID, eg, TaaS-1001, that means Agriculture)
 
       `key` A private key to access private and not publicly available translation systems. Key can be created by contacting [Tilde](http://www.tilde.com/mt/contacts) team. Optional, if omitted then translates with public systems
+
+      #{filterable_description}
     MD
 
     def default_options
@@ -55,7 +58,7 @@ module Agents
     form_configurable :base_url
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
-    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice']
+    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice', 'csv']
     form_configurable :prefix
     form_configurable :source_lang, type: :array, values: %w{bg hr cs da nl en et fi fr de el hu ga it lv lt mt pl pt ro ru sk sl es sv tr}
     form_configurable :target_lang, type: :array, values: %w{bg hr cs da nl en et fi fr de el hu ga it lv lt mt pl pt ro ru sk sl es sv tr}
@@ -63,6 +66,7 @@ module Agents
     form_configurable :mode, type: :array, values: ['full', 'annotation']
     form_configurable :domain
     form_configurable :key
+    filterable_field
 
     def validate_options
       errors.add(:base, "body needs to be present") if options['body'].blank?

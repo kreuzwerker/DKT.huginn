@@ -3,6 +3,7 @@ module Agents
     include FormConfigurable
     include WebRequestConcern
     include NifApiAgentConcern
+    include FremeFilterable
 
     default_schedule 'never'
 
@@ -19,7 +20,7 @@ module Agents
 
       `body_format` specify the content-type of the data in `body`
 
-      `outformat` requested RDF serialization format of the output
+      `outformat` requested RDF serialization format of the output#{filterable_outformat_description}
 
       `source_lang` source language, e.g. "en". A list of available language pairs is  [here](https://services.tilde.com/translationsystems).
 
@@ -30,6 +31,8 @@ module Agents
       `domain` specify domain of translation system. List of supported domains and language pairs can be found [here](https://services.tilde.com/translationsystems).
 
       `system` select translation system by ID [an alternative to source, target language and domain selection]. ID of public translation system can be retrieved at [https://services.tilde.com/translationsystems](https://services.tilde.com/translationsystems) or private system ID can be found at portal [http://tilde.com/mt](http://tilde.com/mt) with authentication [optional, if omitted then source and target languages and also domain parameters are used]
+
+      #{filterable_description}
     MD
 
     def default_options
@@ -49,12 +52,13 @@ module Agents
     form_configurable :base_url
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
-    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice']
+    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice', 'csv']
     form_configurable :source_lang, type: :array, values: %w{bg hr cs da nl en et fi fr de el hu ga it lv lt mt pl pt ro ru sk sl es sv tr}
     form_configurable :target_lang, type: :array, values: %w{bg hr cs da nl en et fi fr de el hu ga it lv lt mt pl pt ro ru sk sl es sv tr}
     form_configurable :key
     form_configurable :domain
     form_configurable :system
+    filterable_field
 
     def validate_options
       errors.add(:base, "body needs to be present") if options['body'].blank?

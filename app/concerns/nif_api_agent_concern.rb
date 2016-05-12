@@ -33,6 +33,8 @@ module NifApiAgentConcern
       'Content-Type' => mo['body_format']
     }
 
+    configuration_keys << 'filter' if self.class.include?(FremeFilterable)
+
     params = {}
     configuration_keys.each do |param|
       params[param.gsub('_', '-')] = mo[param] if mo[param].present?

@@ -3,6 +3,7 @@ module Agents
     include FormConfigurable
     include WebRequestConcern
     include NifApiAgentConcern
+    include FremeFilterable
 
     default_schedule 'never'
 
@@ -21,9 +22,11 @@ module Agents
 
       `body_format` specify the content-type of the data in `body`
 
-      `outformat` requested RDF serialization format of the output
+      `outformat` requested RDF serialization format of the output#{filterable_outformat_description}
 
       `templateid` the ID of the template to be used for enrichment, [the official documentation](http://api.freme-project.eu/doc/0.6/api-doc/full.html#!/e-Link/getAllTemplates) has a list of all available templates.
+
+      #{filterable_description}
     MD
 
     def default_options
@@ -39,8 +42,9 @@ module Agents
     form_configurable :base_url
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml']
-    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text', 'rdf-xml']
+    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text', 'rdf-xml', 'csv']
     form_configurable :templateid, roles: :completable
+    filterable_field
 
     def validate_options
       errors.add(:base, "body needs to be present") if options['body'].blank?

@@ -3,6 +3,7 @@ module Agents
     include FormConfigurable
     include WebRequestConcern
     include NifApiAgentConcern
+    include FremeFilterable
 
     default_schedule 'never'
 
@@ -19,7 +20,7 @@ module Agents
 
       `body_format` specify the content-type of the data in `body`
 
-      `outformat` requested RDF serialization format of the output
+      `outformat` requested RDF serialization format of the output#{filterable_outformat_description}
 
       `prefix` controls the url of rdf resources generated from plaintext. Has default value "http://freme-project.eu/".
 
@@ -28,6 +29,8 @@ module Agents
       `language` language of the source data
 
       `confidence` Setting a high confidence threshold instructs DBpedia Spotlight to avoid incorrect annotations as much as possible at the risk of losing some correct ones. A confidence value of 0.7 will eliminate 70% of incorrectly disambiguated test cases. The range of the confidence parameter is between 0 and 1. Default is 0.3.
+
+      #{filterable_description}
     MD
 
     def default_options
@@ -46,11 +49,12 @@ module Agents
     form_configurable :base_url
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
-    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice']
+    form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice', 'csv']
     form_configurable :prefix
     form_configurable :language, type: :array, values: ['en']
     form_configurable :numLinks
     form_configurable :confidence
+    filterable_field
 
     def validate_options
       errors.add(:base, "body needs to be present") if options['body'].blank?
