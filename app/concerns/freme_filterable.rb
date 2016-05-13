@@ -16,7 +16,7 @@ module FremeFilterable
   end
 
   def complete_filter
-    response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'toolbox/convert/manage'), nil, { 'Accept' => 'application/json'})
+    response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'toolbox/convert/manage'), nil, auth_header.merge({'Accept' => 'application/json'}))
     return [] if response.status != 200
 
     [text: 'none', id: ''] + JSON.parse(response.body).map { |filter| { text: "#{filter['name']}", id: filter['name'], description: filter['description'] } }

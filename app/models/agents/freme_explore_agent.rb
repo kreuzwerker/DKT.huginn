@@ -16,6 +16,8 @@ module Agents
 
       `base_url` allows to customize the API server when hosting the FREME services elswhere, make sure to include the API version.
 
+      #{freme_auth_token_description}
+
       `outformat` requested RDF serialization format of the output (required)#{filterable_outformat_description}.
 
       `resource` a URI of the resource which should be described (required).
@@ -38,6 +40,7 @@ module Agents
     end
 
     form_configurable :base_url
+    form_configurable :auth_token
     form_configurable :outformat, type: :array, values: ['json-ld', 'turtle', 'n3', 'n-triples', 'rdf-xml', 'csv']
     form_configurable :resource
     form_configurable :endpoint

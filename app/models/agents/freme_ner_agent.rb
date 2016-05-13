@@ -16,6 +16,8 @@ module Agents
 
       `base_url` allows to customize the API server when hosting the FREME services elsewhere, make sure to include the API version.
 
+      #{freme_auth_token_description}
+
       `body` use [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid) templating to specify the data to be send to the API.
 
       `body_format` specify the content-type of the data in `body`
@@ -52,6 +54,7 @@ module Agents
     end
 
     form_configurable :base_url
+    form_configurable :auth_token
     form_configurable :body
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/xml', 'text/html', 'text/n3', 'text/turtle', 'application/ld+json', 'application/n-triples', 'application/rdf+xml', 'application/x-xliff+xml', 'application/x-openoffice']
     form_configurable :outformat, type: :array, values: ['turtle', 'json-ld', 'n3', 'n-triples', 'rdf-xml', 'text/html', 'text/xml', 'application/x-xliff+xml', 'application/x-openoffice', 'csv']
@@ -74,7 +77,7 @@ module Agents
     end
 
     def complete_dataset
-      response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'e-entity/freme-ner/datasets'), nil, { 'Accept' => 'application/json'})
+      response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'e-entity/freme-ner/datasets'), nil, auth_header.merge({'Accept' => 'application/json'}))
       return [] if response.status != 200
 
       JSON.parse(response.body).map { |dataset| { text: "#{dataset['name']}: #{dataset['description']}", id: dataset['name'] } }

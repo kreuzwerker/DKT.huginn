@@ -26,12 +26,22 @@ module NifApiAgentConcern
     receive([Event.new])
   end
 
+  module ClassMethods
+    def freme_auth_token_description
+      "`auth_token` can be set to access private filters, datasets, templates or pipelines (depending on the agent)."
+    end
+  end
+
   private
 
+  def auth_header(mo = nil)
+    { 'X-Auth-Token' => (mo || interpolated)['auth_token'] }
+  end
+
   def nif_request!(mo, configuration_keys, url)
-    headers = {
+    headers = auth_header(mo).merge({
       'Content-Type' => mo['body_format']
-    }
+    })
 
     configuration_keys << 'filter' if self.class.include?(FremeFilterable)
 

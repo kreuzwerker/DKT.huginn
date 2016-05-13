@@ -15,6 +15,8 @@ module Agents
 
       `base_url` allows to customize the API server when hosting the FREME services elswhere, make sure to include the API version.
 
+      #{freme_auth_token_description}
+
       `template` When selecting a [pipeline-template](http://api.freme-project.eu/doc/0.6/api-doc/full.html#!/pipelining/get_pipelining_templates), `body` will be used as the input for the pipeline chain.
 
       `body_format` specify the content-type of the data in `body` (only used when a template is selected)
@@ -33,6 +35,7 @@ module Agents
     end
 
     form_configurable :base_url
+    form_configurable :auth_token
     form_configurable :template_id, roles: :completable
     form_configurable :body_format, type: :array, values: ['text/plain', 'text/n3', 'text/turtle', 'application/json', 'application/ld+json', 'application/n-triples', 'application/rdf+xml']
     form_configurable :body, type: :text, ace: true
@@ -46,7 +49,7 @@ module Agents
     end
 
     def complete_template_id
-      response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'pipelining/templates'), nil, { 'Accept' => 'application/json'})
+      response = faraday.run_request(:get, URI.join(interpolated['base_url'], 'pipelining/templates'), nil, auth_header.merge({ 'Accept' => 'application/json'}))
       return [] if response.status != 200
 
       JSON.parse(response.body).map { |template| { text: template['description'], id: template['id'] } }
