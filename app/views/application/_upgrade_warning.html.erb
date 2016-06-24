@@ -1,7 +1,7 @@
 <% if @twitter_agent || @basecamp_agent %>
   <div class="alert alert-danger" role="alert">
     <p>
-      <b>Warning!</b> You need to update your Huginn configuration, so your agents continue to work with the new OAuth services.
+      <b>Warning!</b> You need to update your DKT Flows configuration, so your agents continue to work with the new OAuth services.
     </p>
     <br/>
     <% if @twitter_agent %>
@@ -18,8 +18,8 @@ TWITTER_OAUTH_SECRET=<%= @twitter_oauth_secret %>
     <% end %>
     <% if @basecamp_agent %>
       <p>
-        Your <b>Basecamp</b> agents could not be migrated automatically. You need to manually register an application with 37signals and authenticate Huginn to use it.<br/>
-        Have a look at the <%= link_to 'Wiki', 'https://github.com/huginn/huginn/wiki/Configuring-OAuth-applications', target: '_blank' %> if you need help.
+        Your <b>Basecamp</b> agents could not be migrated automatically. You need to manually register an application with 37signals and authenticate DKT Flows to use it.<br/>
+        Have a look at the <%= link_to 'Wiki', 'https://github.com/cantino/huginn/wiki/Configuring-OAuth-applications', target: '_blank' %> if you need help.
       </p>
     <% end %>
   </div>

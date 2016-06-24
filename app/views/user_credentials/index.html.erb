@@ -9,10 +9,10 @@
         </h2>
       </div>
 
-      <blockquote>
-        Credentials are used to store values used by many Agents. Examples might include "twitter_consumer_secret",
+      <p>
+        Credentials are used to store values used by many Agents. Think of them as variables that you don't want to export when you share Scenarios or Agents with other users. Examples might include "twitter_consumer_secret",
         "user_full_name", or "user_birthday".
-      </blockquote>
+      </p>
 
       <table class='table table-striped'>
         <tr>
@@ -53,7 +53,7 @@
                 <h4 class="modal-title">Upload Credentials</h4>
               </div>
               <div class="modal-body">
-                <p>Upload a credentials file that you have previously exported from a Huginn instance.</p>
+                <p>Upload a credentials file that you have previously exported from a DKT Flows instance.</p>
                 <%= file_field_tag :file, class: 'form-control' %>
               </div>
               <div class="modal-footer">

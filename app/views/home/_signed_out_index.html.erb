@@ -2,18 +2,37 @@
   
   <div class='row'>
     
-    <div class="col-md-4 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
       <h1>Your agents are standing by</h1>
-      <p>Huginn monitors the world and acts on your behalf.</p>
+      <p>DKT Flows is an open-source web application that lets users automate digital content curation tasks by letting 'agents' act on their behalf.
+      </p>
+    </div>
+    <div class="col-md-12" style="min-height: 120px"></div>
 
+    <div class="col-md-6 col-md-offset-3">
       <%= link_to "Login", new_user_session_path, :class => "btn btn-large" %>
       <%= link_to "Signup", new_user_registration_path, :class => "btn btn-primary btn-large" %>
     </div>
-    
-    <div class="col-md-3 col-md-offset-1">
-      <%= image_tag 'odin.jpg', :class => 'img-responsive img-rounded', :title => "Wägner, Wilhelm. 1882. Nordisch-germanische Götter und Helden. Otto Spamer, Leipzig & Berlin. Page 7." %>
-    </div>
   
+  </div>
+  <div class="footer navbar-fixed-bottom">
+
+    <div class='col-md-1'>
+      <%= image_tag 'DKT_logo.png', :class => 'img-responsive img-rounded', :title => "DKT Logo"%>
+    </div>
+
+    <div class='col-md-6'>
+      <blockquote>
+        <small>
+          <p>
+            DKT Flows is a distribution and extension of a Ruby-on-Rails based workflow automation app named <a href="https://github.com/cantino/huginn">Huginn</a>. It includes new agents and enhancements developed in context of the research project <a href="http://digitale-kuratierung.de/">Digitale Kuratierungstechnologien</a> (DKT - Digital Curation Technologies) which is sponsored by the German <a href="https://www.bmbf.de/en/index.html">Ministry of Education and Research</a> (BMBF) through it's <a href=http://www.unternehmen-region.de/en/6499.php">'Entrepreneurial Regions'</a>-Programme - an Innovation Initiative for the New German Länder.
+          </p>
+        </small>
+      </blockquote>
+    </div>
+    <div class='col-md-3'>
+      <%= image_tag 'DKT_Foerderlogos.png', :class => 'img-responsive img-rounded', :title => "DKT Sponsor Logos" %>
+    </div>
   </div>
 
 </div>

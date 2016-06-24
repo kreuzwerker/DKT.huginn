@@ -3,7 +3,7 @@
   <div class='row'>
     <div class='col-md-12'>
       <div class="page-header">
-        <h2>Welcome to Huginn!</h2>
+        <h2>Welcome to DKT Flows!</h2>
       </div>
     </div>
   </div>
@@ -11,13 +11,18 @@
   <div class='row'>
     <div class='col-md-6'>
       <p>
+        DKT Flows is an open-source web application that lets users automate digital content curation tasks. It provides components to cluster documents, to extract information from textual content and to annotate it with standards-based metadata that makes it possible to link extracted information to knowledge and fact bases (closed and linked open data) that are maintained by the user, an organization to which he or she belongs or by a wider community, like Wikipedia.
+      </p>
+    </div>
+    <div class='col-md-2'>
+      <p>
         You have created <span class="text-success"><%= pluralize current_user.agents.count, "agent" %></span>.
       </p>
       <p>
         <%= link_to 'View <i class="icon-chevron-right"></i>'.html_safe, agents_path, class: "btn btn-primary" %>
       </p>
     </div>
-    <div class='col-md-6'>
+    <div class='col-md-4'>
       <p>
         Your agents have recorded
         <span class="text-success"><%= pluralize current_user.events.recent.count, "event" %> recently</span> and
@@ -31,18 +36,23 @@
 
   <div class='row' style='min-height: 250px'></div>
 
-  <div class='row'>
-    <div class='col-md-10'>
+  <div class="footer navbar-fixed-bottom">
+
+    <div class='col-md-1'>
+      <%= image_tag 'DKT_logo.png', :class => 'img-responsive img-rounded', :title => "DKT Logo"%>
+    </div>
+
+    <div class='col-md-6'>
       <blockquote>
-        <p>...two ravens named Huginn and Muninn sit on Odin's shoulders. The ravens tell Odin everything they see and
-          hear. Odin sends Huginn and Muninn out at dawn, and the birds fly all over the world before returning at
-          dinner-time. As a result, Odin is kept informed of many events.</p>
-          <small><a href="http://en.wikipedia.org/wiki/Huginn_and_Muninn">Wikipedia</a>, in reference to
-            <em>Gylfaginning</em></small>
+        <small>
+          <p>
+            DKT Flows is a distribution and extension of a Ruby-on-Rails based workflow automation app named <a href="https://github.com/cantino/huginn">Huginn</a>. It includes new agents and enhancements developed in context of the research project <a href="http://digitale-kuratierung.de/">Digitale Kuratierungstechnologien</a> (DKT - Digital Curation Technologies) which is sponsored by the German <a href="https://www.bmbf.de/en/index.html">Ministry of Education and Research</a> (BMBF) through it's <a href=http://www.unternehmen-region.de/en/6499.php">'Entrepreneurial Regions'</a>-Programme - an Innovation Initiative for the New German Länder.
+          </p>
+        </small>
       </blockquote>
     </div>
-    <div class='col-md-2'>
-      <%= image_tag 'odin.jpg', :class => 'img-responsive img-rounded', :title => "Wägner, Wilhelm. 1882. Nordisch-germanische Götter und Helden. Otto Spamer, Leipzig & Berlin. Page 7." %>
+    <div class='col-md-3'>
+      <%= image_tag 'DKT_Foerderlogos.png', :class => 'img-responsive img-rounded', :title => "DKT Sponsor Logos" %>
     </div>
   </div>
 

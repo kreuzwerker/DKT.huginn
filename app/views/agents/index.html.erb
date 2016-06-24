@@ -7,6 +7,10 @@
         <h2><%= session[:original_admin_user_id].present? ? "#{current_user.username}’s Agents" : 'Your Agents' %></h2>
       </div>
 
+      <p>
+        Agents are automation components in DKT Flows. They can be used in multiple Scenarios. For an overview over all your Agents see the table below.
+      </p>
+
       <%= render 'agents/table' %>
 
       <br/>
